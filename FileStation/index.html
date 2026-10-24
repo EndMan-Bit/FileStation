@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stream</title>
+<link rel="icon" type="image/x-icon" href="files/WebPhoto/WebPhoto.ico">
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: #0f0f11;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        color: #e2e8f0;
+    }
+
+    /* ===== 标题：发光容器 ===== */
+    .title-wrap {
+        position: relative;
+        padding: 24px 48px;
+        cursor: default;
+    }
+    /* 光晕层：径向渐变跟着鼠标走 */
+    .title-wrap::after {
+        content: "";
+        position: absolute;
+        inset: -40px;
+        background: radial-gradient(
+            220px 120px at var(--mx, 50%) var(--my, 50%),
+            rgba(244, 114, 182, .55) 0%,
+            rgba(167, 139, 250, .28) 35%,
+            rgba(102, 126, 234, 0) 70%
+        );
+        filter: blur(18px);
+        opacity: 0;
+        transition: opacity .35s ease;
+        pointer-events: none;
+        z-index: 0;
+    }
+    .title-wrap:hover::after {
+        opacity: 1;
+    }
+
+    .message {
+        position: relative;
+        z-index: 1;
+        font-size: 40px;
+        font-weight: 600;
+        color: #cbd5e1;
+        text-align: center;
+        line-height: 1.4;
+        transition: color .3s ease, text-shadow .3s ease;
+    }
+    .title-wrap:hover .message {
+        color: #fff;
+        text-shadow:
+            0 0 12px rgba(244, 114, 182, .9),
+            0 0 28px rgba(167, 139, 250, .7),
+            0 0 52px rgba(102, 126, 234, .45);
+    }
+
+    .highlight {
+        color: #f9a8d4;
+        font-size: 46px;
+        font-weight: 800;
+        letter-spacing: 1px;
+        transition: filter .3s ease;
+    }
+    .title-wrap:hover .highlight {
+        color: #fff;
+        filter: drop-shadow(0 0 14px rgba(244, 114, 182, .9))
+                drop-shadow(0 0 30px rgba(167, 139, 250, .7));
+    }
+
+    /* ===== Omni 卡片（未改动） ===== */
+    .omni-card {
+        margin-top: 56px;
+        width: 320px;
+        background: #15151a;
+        border-radius: 18px;
+        position: relative;
+    }
+    .omni-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 18px;
+        padding: 1.5px;
+        background: linear-gradient(135deg, #667eea, #f472b6, #764ba2);
+        -webkit-mask:
+            linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        pointer-events: none;
+    }
+    .omni-head {
+        text-align: center;
+        padding: 22px 0 6px;
+        font-size: 26px;
+        font-weight: 800;
+        letter-spacing: 6px;
+        background: linear-gradient(135deg, #667eea 0%, #f472b6 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    .omni-body {
+        display: flex;
+        justify-content: center;
+        padding: 18px 0 30px;
+    }
+    .btn-omni {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 13px 46px;
+        font-size: 17px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        transition: transform .25s ease, box-shadow .25s ease, filter .25s ease;
+    }
+    .btn-omni:hover {
+        transform: translateY(-3px);
+        filter: brightness(1.15);
+        box-shadow: 0 12px 36px rgba(102, 126, 234, .45);
+    }
+    .btn-omni:active {
+        transform: translateY(0);
+    }
+</style>
+</head>
+<body>
+    <div class="title-wrap" id="titleWrap">
+        <div class="message">
+            欢迎来到 <span class="highlight">Stream</span>
+        </div>
+    </div>
+
+    <div class="omni-card">
+        <div class="omni-head">Omni</div>
+        <div class="omni-body">
+            <a class="btn-omni" href="files/Omni/Omni.zip" download>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                     stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M4 21h16"/>
+                </svg>
+                下载
+            </a>
+        </div>
+    </div>
+
+<script>
+    const wrap = document.getElementById('titleWrap');
+    wrap.addEventListener('mousemove', e => {
+        const r = wrap.getBoundingClientRect();
+        wrap.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+        wrap.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    });
+</script>
+</body>
+</html>
